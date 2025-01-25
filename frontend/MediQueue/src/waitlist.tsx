@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "@/components/ui/button";
+
 import Wave from "./wave";
 
 const QueueDisplay: React.FC = () => {
@@ -11,12 +11,7 @@ const QueueDisplay: React.FC = () => {
         <div className="w-full max-w px-6 sm:px-8 relative z-10">
           {/* Header */}
           <div className="flex justify-between items-center pt-8 sm:pt-12">
-            <h1 className="text-2xl sm:text-3xl font-bold text-white">
-              Hi, Karan Gandhi
-            </h1>
-            <Button variant="ghost" className="text-white">
-              Leave Queue
-            </Button>
+
           </div>
 
           {/* Queue Info */}

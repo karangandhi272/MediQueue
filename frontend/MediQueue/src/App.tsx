@@ -1,24 +1,20 @@
-
 import './App.css'
-import { BrowserRouter as Router, Routes, Route, BrowserRouter } from 'react-router-dom'
-import Form from './form'
-import Queue from './waitlist'
-import Wave from './wave'
-import Hospital from './hospital'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { MainLayout } from '@/layouts/MainLayout'
+import Breathwork from '@/Breathwork'
+import Breath from '@/breath'
+import Queue from '@/waitlist'
+import Meditation from '@/meditation'
 
-
-function App() {
-
+export default function App() {
   return (
-    <BrowserRouter>
-          <Routes>
-            <Route path="queue" element={<Queue />} />
-            <Route path="form" element={<Form />} />
-            <Route path="hospital" element={<Hospital />} />
-            <Route path="wave" element={<Wave />} />
-          </Routes>
-    </BrowserRouter>
+    <Router>
+      <Routes>
+        <Route path="/breathwork" element={<MainLayout><Breathwork /></MainLayout>} />
+        <Route path="/breath" element={<Breath />} />
+        <Route path="/queue" element={<MainLayout><Queue /></MainLayout>} />
+        <Route path="/meditation" element={<MainLayout><Meditation /></MainLayout>} />
+      </Routes>
+    </Router>
   )
 }
-
-export default App
