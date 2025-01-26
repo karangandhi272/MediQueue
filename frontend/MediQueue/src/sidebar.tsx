@@ -26,19 +26,9 @@ export function Sidebar({ className }: SidebarProps) {
       path: "/breathwork"
     },
     {
-      title: "Meditation",
-      icon: Headphones,
-      path: "/meditation"
-    },
-    {
       title: "FAQ",
       icon: HelpCircle,
       path: "/faq"
-    },
-    {
-      title: "LOL",
-      icon: LaughIcon,
-      path: "/funny"
     },
     {
       title: "Journal",
