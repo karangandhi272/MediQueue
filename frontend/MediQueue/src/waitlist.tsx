@@ -59,6 +59,7 @@ const QueueDisplay: React.FC = () => {
           <div className="absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-blue-600 to-transparent animate-wave"></div>
         </div>
       </div>
+      <Wave />
     </div>
   );
 };
