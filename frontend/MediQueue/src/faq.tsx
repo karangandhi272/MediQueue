@@ -1,12 +1,11 @@
 import { useState, useRef } from "react";
 import { Waves } from "lucide-react";
-import { Volume2, VolumeX } from "lucide-react";
+import { motion } from "framer-motion";
+
 
 const FaqPage = () => {
   const [selectedQuestion, setSelectedQuestion] = useState<string | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
-  const audioRef = useRef<HTMLAudioElement>(null);
-
 
   const faqs = [
     {
@@ -56,26 +55,8 @@ const FaqPage = () => {
 
   ];
 
-  const toggleMusic = () => {
-    if (audioRef.current) {
-      if (isPlaying) {
-        audioRef.current.pause();
-      } else {
-        audioRef.current.play().catch(error => {
-          console.error("Error playing audio:", error);
-        });
-      }
-      setIsPlaying(!isPlaying);
-    }
-  };
-
   return (
-    <div className="flex min-h-screen bg-gradient-to-br from-blue-100 via-blue-200 to-cyan-100 relative pl-10">
-      <audio 
-        ref={audioRef}
-        src="/soundtrack.mp3" 
-        loop 
-      />
+    <div className="flex min-h-screen bg-gradient-to-br from-blue-50 to-blue-200 relative pl-10">
       <div className="w-1/2 p-12 pt-6 overflow-y-auto max-h-screen scrollbar-thin scrollbar-thumb-blue-500 scrollbar-track-blue-900">
         <h1 className="text-4xl font-bold text-blue-500 mb-8 sticky top-0  z-10 pb-4">
           Ease your concerns
@@ -110,18 +91,24 @@ const FaqPage = () => {
             )}
           </div>
           <div className="mt-8 flex justify-center">
-            <div className="bg-white p-4 rounded-full shadow-lg">
+            <motion.div 
+              className="bg-white p-4 rounded-full shadow-lg"
+              animate={{
+                scale: [1, 1.1, 1],
+                rotate: [0, 5, -5, 0]
+              }}
+              transition={{
+                duration: 2,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            >
               <Waves size={64} className="text-blue-500"/>
-            </div>
+            </motion.div>
           </div>
         </div>
       </div>
-      <button 
-        onClick={toggleMusic}
-        className="fixed bottom-8 right-8 bg-white p-4 rounded-full shadow-lg z-50"
-      >
-        {isPlaying ? <Volume2 size={24} /> : <VolumeX size={24} />}
-      </button>
+
     </div>
   );
 };

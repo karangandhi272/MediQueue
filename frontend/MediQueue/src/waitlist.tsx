@@ -17,7 +17,7 @@ const QueueDisplay: React.FC = () => {
           {/* Queue Info */}
           <div className="mt-16 sm:mt-24 text-center text-white flex flex-col space-y-6 items-center justify-center">
             <div className="text-6xl sm:text-8xl font-bold">5</div>
-            <div className="text-lg font-medium">on Queue</div>
+            <div className="text-lg font-medium">in Queue</div>
             <div className="text-5xl sm:text-6xl font-bold">5:00</div>
             <div className="text-lg font-medium">estimated time</div>
           </div>

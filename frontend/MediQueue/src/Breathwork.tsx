@@ -55,7 +55,7 @@ export default function Breathwork() {
   });
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-purple-100 to-blue-200 flex flex-col overflow-auto">
+    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-blue-200 flex flex-col overflow-auto">
       <h1 className="text-4xl font-bold text-gray-800 p-8 text-center">Breathwork Exercises</h1>
       
       <div className="flex flex-wrap justify-center gap-6 p-8 overflow-y-auto">
