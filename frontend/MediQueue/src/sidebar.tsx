@@ -1,13 +1,9 @@
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
-import { Wind, Users, ChevronLeft, ChevronRight, Headphones, Music, LaughIcon, HelpCircle,Book, ImageIcon } from "lucide-react"
+import { Wind, Users, ChevronLeft, ChevronRight, Headphones, LaughIcon, HelpCircle,Book, ImageIcon } from "lucide-react"
 import { useLocation, useNavigate } from "react-router-dom"
 import { useState, useRef } from "react"
 import { Volume2, VolumeX } from "lucide-react";
-import Journal from "./Journal"
-import path from "path"
-
-
 
 interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -15,7 +11,6 @@ export function Sidebar({ className }: SidebarProps) {
   const navigate = useNavigate()
   const location = useLocation()
   const [isCollapsed, setIsCollapsed] = useState(false)
-  const [isMusicPlaying, setIsMusicPlaying] = useState(false)
   const audioRef = useRef(new Audio("/soundtrack.mp3"))
   const [isPlaying, setIsPlaying] = useState(false);
 

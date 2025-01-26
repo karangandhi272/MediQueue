@@ -1,11 +1,10 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { Waves } from "lucide-react";
 import { motion } from "framer-motion";
 
 
 const FaqPage = () => {
   const [selectedQuestion, setSelectedQuestion] = useState<string | null>(null);
-  const [isPlaying, setIsPlaying] = useState(false);
 
   const faqs = [
     {
