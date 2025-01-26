@@ -142,7 +142,7 @@ export default function ArtCycler() {
                     className="w-full h-48 object-contain mb-2"
                   />
                   <div className="flex-grow">
-                    <h3 className="font-semibold text-sm break-words min-h-[2rem]">{fav.title}</h3>
+                    <h3 className="font-semibold text-sm text-center break-words min-h-[2rem]">{fav.title}</h3>
                   </div>
                   <button
                     onClick={() => handleRemoveFromFavorites(fav.objectID)}
