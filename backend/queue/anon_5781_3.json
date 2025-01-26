@@ -1,0 +1,1 @@
+{"id": "anon_5781", "arrival_time": "2025-01-25T18:32:30.300603", "triage_category": 3, "queue_position": {"global": 16, "category": 1}, "status": {"current_phase": "treatment", "investigations": {"labs": "reported", "imaging": "reported"}}, "time_elapsed": 96}
