@@ -70,7 +70,7 @@ const FaqPage = () => {
   };
 
   return (
-    <div className="flex min-h-screen bg-gradient-to-br from-blue-100 via-blue-200 to-cyan-100 relative">
+    <div className="flex min-h-screen bg-gradient-to-br from-blue-100 via-blue-200 to-cyan-100 relative pl-10">
       <audio 
         ref={audioRef}
         src="/soundtrack.mp3" 

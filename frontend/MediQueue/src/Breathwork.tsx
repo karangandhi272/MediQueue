@@ -55,22 +55,22 @@ export default function Breathwork() {
   });
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-purple-100 to-blue-200 flex flex-col">
+    <div className="min-h-screen bg-gradient-to-b from-purple-100 to-blue-200 flex flex-col overflow-auto">
       <h1 className="text-4xl font-bold text-gray-800 p-8 text-center">Breathwork Exercises</h1>
       
-      <div className="flex flex-wrap justify-center gap-6 p-8">
-        {breathworkExercises.map((exercise, index) => (
-          <Card 
-            key={index}
-            onClick={() => {
-                if (hoveredCard !== null) {
-                  navigate('/breath', { state: { exercise: breathworkExercises[hoveredCard] } });
-                }
-              }}
-            className="p-6 relative overflow-hidden group hover:shadow-xl transition-shadow"
-            onMouseEnter={() => setHoveredCard(index)}
-            onMouseLeave={() => setHoveredCard(null)}
-          >
+      <div className="flex flex-wrap justify-center gap-6 p-8 overflow-y-auto">
+      {breathworkExercises.map((exercise, index) => (
+        <Card 
+        key={index}
+        onClick={() => {
+          if (hoveredCard !== null) {
+            navigate('/breath', { state: { exercise: breathworkExercises[hoveredCard] } });
+          }
+          }}
+        className="p-6 relative overflow-hidden group hover:shadow-xl transition-shadow"
+        onMouseEnter={() => setHoveredCard(index)}
+        onMouseLeave={() => setHoveredCard(null)}
+        >
             <h2 className="text-xl font-semibold mb-3">{exercise.name}</h2>
             <p className="text-gray-600 mb-4">{exercise.description}</p>
             

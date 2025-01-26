@@ -1,9 +1,11 @@
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
-import { Wind, Users, ChevronLeft, ChevronRight, Headphones } from "lucide-react"
+import { Wind, Users, ChevronLeft, ChevronRight, Headphones, Music, LaughIcon, HelpCircle } from "lucide-react"
 import { useLocation, useNavigate } from "react-router-dom"
-import { useState } from "react"
-import path from "path"
+import { useState, useRef } from "react"
+import { Volume2, VolumeX } from "lucide-react";
+
+
 
 interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -11,6 +13,9 @@ export function Sidebar({ className }: SidebarProps) {
   const navigate = useNavigate()
   const location = useLocation()
   const [isCollapsed, setIsCollapsed] = useState(false)
+  const [isMusicPlaying, setIsMusicPlaying] = useState(false)
+  const audioRef = useRef(new Audio("/soundtrack.mp3"))
+  const [isPlaying, setIsPlaying] = useState(false);
 
   const menuItems = [
     {
@@ -30,20 +35,33 @@ export function Sidebar({ className }: SidebarProps) {
     },
     {
       title: "FAQ",
-      icon: Users,
+      icon: HelpCircle,
       path: "/faq"
     },
     {
       title: "LOL",
-      icon: Users,
+      icon: LaughIcon,
       path: "/funny"
     }
   ]
 
+  const toggleMusic = () => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play().catch(error => {
+          console.error("Error playing audio:", error);
+        });
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
+
   return (
     <div
       className={cn(
-        "relative pb-12 min-h-screen transition-all duration-300 bg-gradient-to-b from-blue-400 to-blue-600 -ml-1.5",
+        "relative pb-12 min-h-screen transition-all duration-300 bg-gradient-to-b from-blue-400 to-blue-600 fixed -ml-1.5",
         isCollapsed ? "w-16" : "w-64",
         className
       )}
@@ -86,6 +104,14 @@ export function Sidebar({ className }: SidebarProps) {
         className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 h-12 w-12 rounded-full bg-blue-500 hover:bg-blue-600 text-white shadow-lg p-0"
       >
         {isCollapsed ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
+      </Button>
+      <Button
+        variant="ghost"
+        size="sm"
+        onClick={toggleMusic}
+        className="absolute bottom-4 left-1/2 -translate-x-1/2 h-12 w-12 rounded-full bg-blue-500 hover:bg-blue-600 text-white shadow-lg p-0"
+        >
+        {isPlaying ? <Volume2 size={24} /> : <VolumeX size={24} />}
       </Button>
     </div>
   )
