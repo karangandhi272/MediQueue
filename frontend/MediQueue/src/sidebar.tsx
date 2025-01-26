@@ -1,8 +1,9 @@
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import { Wind, Users, ChevronLeft, ChevronRight, Headphones, BookOpen } from "lucide-react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { cn } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
+import { Wind, Users, ChevronLeft, ChevronRight, Headphones } from "lucide-react"
+import { useLocation, useNavigate } from "react-router-dom"
+import { useState } from "react"
+import path from "path"
 
 interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -25,14 +26,10 @@ export function Sidebar({ className }: SidebarProps) {
     {
       title: "Meditation",
       icon: Headphones,
-      path: "/meditation",
-    },
-    {
-      title: "Journal",
-      icon: BookOpen,
-      path: "/journal",
-    },
-  ];
+      path: "/meditation"
+    }
+
+  ]
 
   return (
     <div

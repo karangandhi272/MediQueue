@@ -1,0 +1,141 @@
+import React, { useState, useEffect } from 'react';
+
+const SUITS = ['♠', '♣', '♥', '♦'];
+const VALUES = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
+
+const createDeck = () => {
+  return SUITS.flatMap(suit => 
+    VALUES.map(value => ({
+      suit, 
+      value, 
+      color: suit === '♥' || suit === '♦' ? 'red' : 'black',
+      revealed: false
+    }))
+  );
+};
+
+const shuffleDeck = (deck) => {
+  for (let i = deck.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [deck[i], deck[j]] = [deck[j], deck[i]];
+  }
+  return deck;
+};
+
+const Solitaire = () => {
+  const [deck, setDeck] = useState([]);
+  const [tableau, setTableau] = useState(Array(7).fill().map(() => []));
+  const [stock, setStock] = useState([]);
+  const [waste, setWaste] = useState([]);
+  const [foundations, setFoundations] = useState({
+    '♠': [], '♣': [], '♥': [], '♦': []
+  });
+
+  useEffect(() => {
+    initializeGame();
+  }, []);
+
+  const initializeGame = () => {
+    const newDeck = shuffleDeck(createDeck());
+    const newTableau = Array(7).fill().map((_, i) => 
+      newDeck.splice(0, i + 1).map((card, j) => ({
+        ...card, 
+        revealed: j === i
+      }))
+    );
+
+    setDeck(newDeck);
+    setTableau(newTableau);
+    setStock(newDeck);
+    setWaste([]);
+    setFoundations({ '♠': [], '♣': [], '♥': [], '♦': [] });
+  };
+
+  const drawCard = () => {
+    if (stock.length === 0 && waste.length > 0) {
+      setStock(waste.reverse().map(card => ({...card, revealed: false})));
+      setWaste([]);
+      return;
+    }
+
+    const drawnCard = stock.pop();
+    if (drawnCard) {
+      setStock([...stock]);
+      setWaste([...waste, {...drawnCard, revealed: true}]);
+    }
+  };
+
+  const canMoveToFoundation = (card, foundationSuit) => {
+    const foundation = foundations[foundationSuit];
+    if (foundation.length === 0) {
+      return card.value === 'A';
+    }
+    const lastCard = foundation[foundation.length - 1];
+    return (
+      card.suit === foundationSuit &&
+      VALUES.indexOf(card.value) === VALUES.indexOf(lastCard.value) + 1
+    );
+  };
+
+  const moveToFoundation = (card, sourceType, sourceIndex) => {
+    if (canMoveToFoundation(card, card.suit)) {
+      const updatedFoundations = {...foundations};
+      updatedFoundations[card.suit] = [...updatedFoundations[card.suit], card];
+      setFoundations(updatedFoundations);
+
+      if (sourceType === 'tableau') {
+        const newTableau = [...tableau];
+        newTableau[sourceIndex] = newTableau[sourceIndex].filter(c => c !== card);
+        if (newTableau[sourceIndex].length > 0) {
+          newTableau[sourceIndex][newTableau[sourceIndex].length - 1].revealed = true;
+        }
+        setTableau(newTableau);
+      } else if (sourceType === 'waste') {
+        setWaste(waste.filter(c => c !== card));
+      }
+    }
+  };
+
+  const renderCard = (card, index = -1) => (
+    <div 
+      key={index} 
+      className={`card ${card.revealed ? 'revealed' : 'hidden'} ${card.color}`}
+    >
+      {card.revealed ? `${card.value}${card.suit}` : ''}
+    </div>
+  );
+
+  return (
+    <div className="solitaire-game">
+      <div className="game-controls">
+        <button onClick={drawCard}>Draw</button>
+        <button onClick={initializeGame}>New Game</button>
+      </div>
+
+      <div className="stock-waste">
+        <div className="stock">{stock.length} cards</div>
+        <div className="waste">
+          {waste.slice(-3).map(renderCard)}
+        </div>
+      </div>
+
+      <div className="foundations">
+        {Object.entries(foundations).map(([suit, cards]) => (
+          <div key={suit} className="foundation">
+            {cards.length > 0 ? renderCard(cards[cards.length - 1]) : null}
+          </div>
+        ))}
+      </div>
+
+      <div className="tableau">
+        {tableau.map((column, colIndex) => (
+          <div key={colIndex} className="tableau-column">
+            {column.map((card, cardIndex) => renderCard(card, cardIndex))}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default Solitaire;

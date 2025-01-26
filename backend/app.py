@@ -6,14 +6,6 @@ import os
 QUEUE_PATH = "backend/queue/"
 
 
-def load_json(json_path):
-    json_file = open(json_path, "r")
-    parsed_json = json.load(json_file)
-    json_file.close()
-    
-    return parsed_json
-
-
 def find_longest_by_triage(triage):
     highest = -1
     suffix = "{}.json".format(triage)
@@ -35,11 +27,9 @@ def find_longest_by_triage(triage):
 
 app = Flask(__name__)
 
-# /get-patient?id=<PATIENT ID>
-@app.route('/get-patient', methods = ['GET'])
-def get_patient():
-    id = request.args.get("id")
-
+# /patients/<PATIENT ID>
+@app.route('/patients/<id>', methods = ['GET'])
+def get_patient(id):
     if (id.endswith(".json")):
         pass
     else:
@@ -62,4 +52,4 @@ def get_patient():
 
 
 if __name__ == '__main__':  
-     app.run()
+     app.run(debug = True)
