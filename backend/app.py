@@ -6,14 +6,6 @@ import os
 QUEUE_PATH = "backend/queue/"
 
 
-def load_json(json_path):
-    json_file = open(json_path, "r")
-    parsed_json = json.load(json_file)
-    json_file.close()
-    
-    return parsed_json
-
-
 def find_longest_by_triage(triage):
     highest = -1
     suffix = "{}.json".format(triage)
