@@ -13,20 +13,17 @@ export function Sidebar({ className }: SidebarProps) {
   const navigate = useNavigate()
   const location = useLocation()
   const [isCollapsed, setIsCollapsed] = useState(false)
-  const [isMusicPlaying, setIsMusicPlaying] = useState(false)
-  const audioRef = useRef(new Audio("/soundtrack.mp3"))
-  const [isPlaying, setIsPlaying] = useState(false);
 
   const menuItems = [
     {
       title: "Queue",
       icon: Users,
-      path: "/queue"
+      path: "/queue",
     },
     {
       title: "Breathwork",
       icon: Wind,
-      path: "/breathwork"
+      path: "/breathwork",
     },
     {
       title: "Meditation",
@@ -35,12 +32,12 @@ export function Sidebar({ className }: SidebarProps) {
     },
     {
       title: "FAQ",
-      icon: HelpCircle,
+      icon: Users,
       path: "/faq"
     },
     {
       title: "LOL",
-      icon: LaughIcon,
+      icon: Users,
       path: "/funny"
     }
   ]
@@ -68,10 +65,12 @@ export function Sidebar({ className }: SidebarProps) {
     >
       <div className="space-y-4 py-4">
         <div className="px-3 py-2">
-          <h2 className={cn(
-            "mb-6 px-4 text-lg font-semibold tracking-tight transition-all duration-300 text-white",
-            isCollapsed && "opacity-0"
-          )}>
+          <h2
+            className={cn(
+              "mb-6 px-4 text-lg font-semibold tracking-tight transition-all duration-300 text-white",
+              isCollapsed && "opacity-0"
+            )}
+          >
             MediQueue
           </h2>
           <div className="space-y-1">
@@ -87,10 +86,9 @@ export function Sidebar({ className }: SidebarProps) {
                 onClick={() => navigate(item.path)}
                 title={isCollapsed ? item.title : undefined}
               >
-                <item.icon className={cn(
-                  "h-4 w-4",
-                  !isCollapsed && "mr-2"
-                )} />
+                <item.icon
+                  className={cn("h-4 w-4", !isCollapsed && "mr-2")}
+                />
                 {!isCollapsed && item.title}
               </Button>
             ))}
@@ -114,5 +112,5 @@ export function Sidebar({ className }: SidebarProps) {
         {isPlaying ? <Volume2 size={24} /> : <VolumeX size={24} />}
       </Button>
     </div>
-  )
+  );
 }
