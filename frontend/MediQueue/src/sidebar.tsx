@@ -1,34 +1,38 @@
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import { Wind, Users, ChevronLeft, ChevronRight, Headphones } from "lucide-react"
-import { useLocation, useNavigate } from "react-router-dom"
-import { useState } from "react"
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Wind, Users, ChevronLeft, ChevronRight, Headphones, BookOpen } from "lucide-react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 export function Sidebar({ className }: SidebarProps) {
-  const navigate = useNavigate()
-  const location = useLocation()
-  const [isCollapsed, setIsCollapsed] = useState(false)
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [isCollapsed, setIsCollapsed] = useState(false);
 
   const menuItems = [
     {
       title: "Queue",
       icon: Users,
-      path: "/queue"
+      path: "/queue",
     },
     {
       title: "Breathwork",
       icon: Wind,
-      path: "/breathwork"
+      path: "/breathwork",
     },
     {
       title: "Meditation",
       icon: Headphones,
-      path: "/meditation"
-    }
-
-  ]
+      path: "/meditation",
+    },
+    {
+      title: "Journal",
+      icon: BookOpen,
+      path: "/journal",
+    },
+  ];
 
   return (
     <div
@@ -40,10 +44,12 @@ export function Sidebar({ className }: SidebarProps) {
     >
       <div className="space-y-4 py-4">
         <div className="px-3 py-2">
-          <h2 className={cn(
-            "mb-6 px-4 text-lg font-semibold tracking-tight transition-all duration-300 text-white",
-            isCollapsed && "opacity-0"
-          )}>
+          <h2
+            className={cn(
+              "mb-6 px-4 text-lg font-semibold tracking-tight transition-all duration-300 text-white",
+              isCollapsed && "opacity-0"
+            )}
+          >
             MediQueue
           </h2>
           <div className="space-y-1">
@@ -59,10 +65,9 @@ export function Sidebar({ className }: SidebarProps) {
                 onClick={() => navigate(item.path)}
                 title={isCollapsed ? item.title : undefined}
               >
-                <item.icon className={cn(
-                  "h-4 w-4",
-                  !isCollapsed && "mr-2"
-                )} />
+                <item.icon
+                  className={cn("h-4 w-4", !isCollapsed && "mr-2")}
+                />
                 {!isCollapsed && item.title}
               </Button>
             ))}
@@ -78,5 +83,5 @@ export function Sidebar({ className }: SidebarProps) {
         {isCollapsed ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
       </Button>
     </div>
-  )
+  );
 }
