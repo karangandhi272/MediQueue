@@ -1,4 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
+import { ChevronLeft, ChevronRight, Heart, List } from "lucide-react";
 
 type Artwork = {
   objectID: number;
@@ -22,10 +23,10 @@ export default function ArtCycler() {
   const [error, setError] = useState<string | null>(null);
   const [index, setIndex] = useState<number>(0);
   const [objectIDs, setObjectIDs] = useState<number[]>([]);
-  const [favorites, setFavorites] = useState<Artwork[]>([]); // State for favorites
-  const [showFavorites, setShowFavorites] = useState<boolean>(false); // Toggle for showing favorites
+  const [favorites, setFavorites] = useState<Artwork[]>([]);
+  const [showFavorites, setShowFavorites] = useState<boolean>(false);
 
-  // Fetch object IDs
+  // Previous fetch effects remain the same...
   useEffect(() => {
     const fetchObjectIDs = async () => {
       try {
@@ -47,7 +48,6 @@ export default function ArtCycler() {
     fetchObjectIDs();
   }, []);
 
-  // Fetch artwork details
   useEffect(() => {
     if (objectIDs.length === 0) return;
 
@@ -81,7 +81,6 @@ export default function ArtCycler() {
     fetchArtwork();
   }, [index, objectIDs]);
 
-  // Handlers for navigation
   const handleNext = useCallback(() => {
     setIndex((prevIndex) => (prevIndex + 1) % objectIDs.length);
   }, [objectIDs.length]);
@@ -92,13 +91,11 @@ export default function ArtCycler() {
     );
   }, [objectIDs.length]);
 
-  // Add to favorites
   const handleAddToFavorites = useCallback(() => {
     if (!artwork || favorites.some((fav) => fav.objectID === artwork.objectID)) return;
     setFavorites((prev) => [...prev, artwork]);
   }, [artwork, favorites]);
 
-  // Remove from favorites
   const handleRemoveFromFavorites = useCallback((objectID: number) => {
     setFavorites((prev) => prev.filter((fav) => fav.objectID !== objectID));
   }, []);
@@ -117,33 +114,39 @@ export default function ArtCycler() {
     );
   }
 
+  const isCurrentArtworkFavorite = artwork 
+  ? favorites.some(fav => fav.objectID === artwork.objectID) 
+  : false;
+
   return (
-    <div className="min-h-screen bg-black text-white flex flex-col items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-b from-gray-700 to-black text-white flex flex-col items-center p-4 relative">
       <h1 className="text-4xl font-bold mb-4">Metropolitan Museum of Art</h1>
-      <p className="mt-4 p-4">Explore breathtaking artwork!</p>
+      <p className="mt-4 text-2xl p-4">Explore breathtaking artwork!</p>
 
       {/* Favorites View */}
       {showFavorites ? (
-        <div>
+        <div className="w-full px-[140px]">
           <h2 className="text-2xl font-semibold mb-4">Favorites</h2>
           {favorites.length === 0 ? (
             <p className="text-gray-400">No favorites yet.</p>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
               {favorites.map((fav) => (
                 <div
                   key={fav.objectID}
-                  className="bg-gray-800 p-4 rounded-lg text-center"
+                  className="bg-gray-800 p-4 rounded-lg flex flex-col"
                 >
                   <img
                     src={fav.primaryImageSmall || fav.primaryImage}
                     alt={fav.title}
                     className="w-full h-48 object-contain mb-2"
                   />
-                  <h3 className="font-semibold">{fav.title}</h3>
+                  <div className="flex-grow">
+                    <h3 className="font-semibold text-sm break-words min-h-[2rem]">{fav.title}</h3>
+                  </div>
                   <button
                     onClick={() => handleRemoveFromFavorites(fav.objectID)}
-                    className="text-red-500 mt-2"
+                    className="text-gray-500 mt-2 font-bold text-sm self-center"
                   >
                     Remove
                   </button>
@@ -151,18 +154,36 @@ export default function ArtCycler() {
               ))}
             </div>
           )}
-          <button
-            onClick={() => setShowFavorites(false)}
-            className="bg-blue-500 px-4 py-2 text-white rounded-full mt-4"
-          >
-            Back to Gallery
-          </button>
+          <div className="flex justify-center mt-4">
+            <button
+              onClick={() => setShowFavorites(false)}
+              className="bg-blue-500 px-4 py-2 text-white rounded-full"
+            >
+              Back to Gallery
+            </button>
+          </div>
         </div>
       ) : (
-        <div>
-          <div className="max-w-4xl text-center">
+        <div className="relative w-full max-w-4xl">
+          {/* Previous Button */}
+          <button
+            onClick={handlePrevious}
+            className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-blue-500 p-2 text-white rounded-full hover:bg-blue-600"
+          >
+            <ChevronLeft size={36} />
+          </button>
+
+          {/* Next Button */}
+          <button
+            onClick={handleNext}
+            className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-blue-500 p-2 text-white rounded-full hover:bg-blue-600"
+          >
+            <ChevronRight size={36} />
+          </button>
+
+          <div className="max-w-4xl text-center pb-20">
             <div
-              className="w-[700px] h-[700px] mx-auto overflow-hidden rounded-lg bg-black flex items-center justify-center"
+              className="w-[700px] h-[700px] mx-auto overflow-hidden rounded-lg flex items-center justify-center"
             >
               <img
                 src={artwork?.primaryImage || artwork?.primaryImageSmall}
@@ -184,30 +205,25 @@ export default function ArtCycler() {
               {artwork?.creditLine}
             </p>
           </div>
-          <div className="mt-6 flex space-x-4">
-            <button
-              onClick={handlePrevious}
-              className="bg-blue-500 px-4 py-2 text-white rounded-full hover:bg-blue-600"
-            >
-              Previous
-            </button>
-            <button
-              onClick={handleNext}
-              className="bg-blue-500 px-4 py-2 text-white rounded-full hover:bg-blue-600"
-            >
-              Next
-            </button>
+
+          {/* Buttons at bottom center */}
+          <div className="fixed bottom-0 left-0 right-0 flex justify-center space-x-4 pb-4 bg-gradient-to-t from-black/70 to-transparent">
             <button
               onClick={handleAddToFavorites}
-              className="bg-green-500 px-4 py-2 text-white rounded-full hover:bg-green-600"
+              className="flex items-center justify-center"
             >
-              Add to Favorites
+              <Heart 
+                size={32} 
+                fill={isCurrentArtworkFavorite ? "white" : "none"}
+                color={isCurrentArtworkFavorite ? "white" : "white"}
+                className="transition-colors duration-300 hover:scale-110"
+              />
             </button>
             <button
               onClick={() => setShowFavorites(true)}
-              className="bg-gray-700 px-4 py-2 text-white rounded-full hover:bg-gray-800"
+              className="bg-gray-700 px-4 py-2 text-white rounded-full hover:bg-gray-800 flex items-center"
             >
-              View Favorites
+              <List size={20} className="mr-2" /> View Favorites
             </button>
           </div>
         </div>
