@@ -49,14 +49,6 @@ export default function ArtCycler() {
   }, []);
 
   useEffect(() => {
-    // Retrieve favorites from sessionStorage
-    const storedFavorites = JSON.parse(sessionStorage.getItem('favorites') || '[]');
-    
-    // Initialize state with stored favorites
-    setFavorites(storedFavorites);
-  }, []);
-
-  useEffect(() => {
     if (objectIDs.length === 0) return;
 
     const fetchArtwork = async () => {
@@ -100,35 +92,12 @@ export default function ArtCycler() {
   }, [objectIDs.length]);
 
   const handleAddToFavorites = useCallback(() => {
-    if (!artwork) return;
-  
-    // Retrieve existing favorites from sessionStorage
-    const storedFavorites = JSON.parse(sessionStorage.getItem('favorites') || '[]');
-  
-    // Check if the artwork is already in favorites
-    if (!storedFavorites.some((fav: any) => fav.objectID === artwork.objectID)) {
-      const updatedFavorites = [...storedFavorites, artwork];
-      
-      // Save updated favorites back to sessionStorage
-      sessionStorage.setItem('favorites', JSON.stringify(updatedFavorites));
-      
-      // Update React state
-      setFavorites(updatedFavorites);
-    }
-  }, [artwork]);
+    if (!artwork || favorites.some((fav) => fav.objectID === artwork.objectID)) return;
+    setFavorites((prev) => [...prev, artwork]);
+  }, [artwork, favorites]);
 
   const handleRemoveFromFavorites = useCallback((objectID: number) => {
-    // Retrieve existing favorites from sessionStorage
-    const storedFavorites = JSON.parse(sessionStorage.getItem('favorites') || '[]');
-  
-    // Filter out the artwork by `objectID`
-    const updatedFavorites = storedFavorites.filter((fav: any) => fav.objectID !== objectID);
-    
-    // Save updated favorites back to sessionStorage
-    sessionStorage.setItem('favorites', JSON.stringify(updatedFavorites));
-    
-    // Update React state
-    setFavorites(updatedFavorites);
+    setFavorites((prev) => prev.filter((fav) => fav.objectID !== objectID));
   }, []);
 
   if (error) return <div className="text-red-500">{error}</div>;
