@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button"
 import { Wind, Users, ChevronLeft, ChevronRight, Headphones } from "lucide-react"
 import { useLocation, useNavigate } from "react-router-dom"
 import { useState } from "react"
+import path from "path"
 
 interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -26,8 +27,17 @@ export function Sidebar({ className }: SidebarProps) {
       title: "Meditation",
       icon: Headphones,
       path: "/meditation"
+    },
+    {
+      title: "FAQ",
+      icon: Users,
+      path: "/faq"
+    },
+    {
+      title: "LOL",
+      icon: Users,
+      path: "/funny"
     }
-
   ]
 
   return (
